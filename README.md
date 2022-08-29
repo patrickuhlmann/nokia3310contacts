@@ -4,7 +4,7 @@ Convert contacts (vcf) from Nextcloud (v4) to Nokia 3310 format (v2.1)
 This is a small private project used for a one time migration from Nextcloud contacts to my Nokia 3310 phone.
 
 A description of the whole process can be found here:
-https://www.uhlme.ch/nokia-3310-3g-import-contacts-from-nextcloud/
+https://www.uhlme.ch/nokia/3310/nextcloud/2021/03/20/nokia-3310-3G-nextcloud-contacts.html
 
 In the doc folder you find a reference of the vcf 2.1 format
 
@@ -24,7 +24,7 @@ On the command line run:
 
 ## Troubleshooting
 
-I used Java 13 to run it.
+I used Java 17 (LTS) to run it.
 
 If you get an error similar than:
 

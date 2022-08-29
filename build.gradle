@@ -1,6 +1,13 @@
 plugins {
     id 'java'
     id 'application'
+    id "com.github.spotbugs" version "5.0.10"
+    id 'pmd'
+    id 'checkstyle'
+    id "net.davidecavestro.gradle.jxr" version "0.2.1"
+    id 'com.github.ben-manes.versions'  version '0.42.0' // see dependencyUpdates
+    id 'com.palantir.graal' version '0.12.0'
+    id "org.owasp.dependencycheck" version "7.1.2"
 }
 
 group 'ch.uhlme'
@@ -13,10 +20,88 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'com.googlecode.ez-vcard:ez-vcard:0.10.5'
+    implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.3'
 }
 
 application {
     mainClassName = 'Application'
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+jar.dependsOn javadocJar
+jar.dependsOn sourcesJar
+
+compileJava   {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+    
+    manifest {
+        attributes 'Main-Class': 'ch.uhlme.Application'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencyCheck {
+	failOnError
+	failBuildOnCVSS=7
+}
+
+spotbugs {
+    //noinspection GrFinalVariableAccess
+    ignoreFailures = false
+}
+
+pmd {
+    ignoreFailures = false
+    toolVersion = "6.48.0"
+}
+
+spotbugsMain {
+    reports {
+ 	// Only one report format is supported. Html is easier to read, so let's use that
+    	// (xml is the one that's enabled by default)
+    	xml.required = false
+        html.required = true
+        
+    }
+}
+
+checkstyle {
+    toolVersion '10.3.3'
+    maxWarnings = 0
+}
+
+graal {
+    mainClass 'Application'
+    outputName 'nokia3310contacts'
+    graalVersion '21.3.0'
+    javaVersion '17'
+}
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+check.dependsOn dependencyUpdates
+dependencyUpdates {
+    rejectVersionIf {
+        isNonStable(it.candidate.version)
+    }
+
+    gradleReleaseChannel="current"
+    checkForGradleUpdate = true
+    outputDir = "build/reports"
+    reportfileName = "dependencyUpdates"
 }
