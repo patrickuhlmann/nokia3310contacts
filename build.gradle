@@ -54,6 +54,7 @@ jar {
 dependencyCheck {
 	failOnError
 	failBuildOnCVSS=7
+    suppressionFile='owasp_suppression.xml'
 }
 
 spotbugs {
