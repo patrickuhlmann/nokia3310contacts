@@ -32,6 +32,6 @@ General error during semantic analysis: Unsupported class file major version 57
 java.lang.IllegalArgumentException: Unsupported class file major version 57
 ```
 
-It is most likely that you don't run Java 13
+It is most likely that you don't run Java 17
 
 
