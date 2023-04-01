@@ -19,7 +19,6 @@ On the command line run:
 
 ```
 ./gradlew run --args='example/contacts.vcf example/contacts_out.vcf'
-
 ```
 
 ## Troubleshooting

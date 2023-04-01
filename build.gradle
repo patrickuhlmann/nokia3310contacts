@@ -1,26 +1,25 @@
 plugins {
     id 'java'
     id 'application'
-    id "com.github.spotbugs" version "5.0.13"
+    id "com.github.spotbugs" version "5.0.14"
     id 'pmd'
     id 'checkstyle'
     id "net.davidecavestro.gradle.jxr" version "0.2.1"
     id 'com.github.ben-manes.versions'  version '0.46.0' // see dependencyUpdates
     id 'com.palantir.graal' version '0.12.0'
-    id "org.owasp.dependencycheck" version "8.1.2"
+    id "org.owasp.dependencycheck" version "8.2.1"
 }
 
 group 'ch.uhlme'
 version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.3'
+    implementation 'com.googlecode.ez-vcard:ez-vcard:0.12.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 }
 
 application {
@@ -37,6 +36,13 @@ jar.dependsOn sourcesJar
 compileJava   {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 jar {
@@ -78,7 +84,7 @@ spotbugsMain {
 }
 
 checkstyle {
-    toolVersion '10.3.3'
+    toolVersion '10.9.3'
     maxWarnings = 0
 }
 

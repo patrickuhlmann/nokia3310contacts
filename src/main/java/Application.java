@@ -7,8 +7,10 @@ import ezvcard.property.Categories;
 import ezvcard.property.Email;
 import ezvcard.property.Nickname;
 import ezvcard.property.ProductId;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
@@ -32,37 +34,32 @@ public class Application {
       System.out.println("Usage <inputPath> <outputPath>");
       return;
     }
-    File input = Paths.get(args[0]).toFile();
-    if (!input.exists()) {
-      System.out.println(ANSI_RED + "Input file doesn't exist!" + ANSI_RESET);
-      return;
+    try {
+      Application.convert(args[0], args[1]);
+    } catch (IOException e) {
+      System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
     }
-    File output = Paths.get(args[1]).toFile();
-
-    new Application(input, output);
   }
 
-  /**
-   * Transition from the Static Part to the Application.
-   *
-   * @param input vcf from nextcloud
-   * @param output vcf for nokia 3310
-   */
-  public Application(File input, File output) {
-    List<VCard> vcards;
-    try {
-      vcards = Ezvcard.parse(input).all();
-    } catch (IOException e) {
-      System.out.println(ANSI_RED + "Failed to read input file: " + e + ANSI_RESET);
-      return;
+  private static void convert(String input, String output) throws IOException {
+    Path inputPath = Paths.get(input);
+    if (!Files.exists(inputPath)) {
+      throw new FileNotFoundException("Input file doesn't exist!");
     }
+    Path outputPath = Paths.get(output);
+
+    convert(inputPath, outputPath);
+  }
+
+  private static void convert(Path input, Path output) throws IOException {
+    List<VCard> vcards = parse(input);
 
     System.out.println("input vCards size = " + vcards.size());
     System.out.println(
         "the conversion will remove the following properties: PRODID, CATEGORIES, NICKNAME");
     System.out.println(
         "Nokia 3310 only supports one email thus only the first one will be kept"
-        + "and all others removed");
+        + " and all others removed");
     System.out.println(
         "it will convert emails of all types to type INTERNET for compatibility reasons");
     System.out.println("if there are additional validation problems, they will be printed");
@@ -103,12 +100,19 @@ public class Application {
     }
 
     try {
-      Ezvcard.write(vcards).go(output);
+      Ezvcard.write(vcards).go(Files.newOutputStream(output));
     } catch (IOException e) {
-      System.out.println(ANSI_RED + "Failed to write output file: " + e + ANSI_RESET);
-      return;
+      throw new IOException("Failed to write output file: ", e);
     }
 
     System.out.println(ANSI_GREEN + "Successfully wrote output file" + ANSI_RESET);
+  }
+
+  private static List<VCard> parse(Path input) throws IOException {
+    try {
+      return Ezvcard.parse(input).all();
+    } catch (IOException e) {
+      throw new IOException("Failed to read input file: ", e);
+    }
   }
 }
