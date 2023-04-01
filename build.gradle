@@ -91,7 +91,7 @@ checkstyle {
 graal {
     mainClass 'Application'
     outputName 'nokia3310contacts'
-    graalVersion '21.3.0'
+    graalVersion '22.3.0'
     javaVersion '17'
 }
 

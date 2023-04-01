@@ -89,4 +89,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: nokia3310-ubuntu-latest
-          path: ./build/graal/nokia3310
+          path: ./build/graal/nokia3310contacts
