@@ -6,7 +6,6 @@ plugins {
     id 'checkstyle'
     id "net.davidecavestro.gradle.jxr" version "0.2.1"
     id 'com.github.ben-manes.versions'  version '0.46.0' // see dependencyUpdates
-    id 'com.palantir.graal' version '0.12.0'
     id "org.owasp.dependencycheck" version "8.2.1"
 }
 
@@ -86,13 +85,6 @@ spotbugsMain {
 checkstyle {
     toolVersion '10.9.3'
     maxWarnings = 0
-}
-
-graal {
-    mainClass 'Application'
-    outputName 'nokia3310contacts'
-    graalVersion '22.3.0'
-    javaVersion '17'
 }
 
 def isNonStable = { String version ->
