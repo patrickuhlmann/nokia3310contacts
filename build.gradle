@@ -5,7 +5,7 @@ plugins {
     id 'pmd'
     id 'checkstyle'
     id "net.davidecavestro.gradle.jxr" version "0.2.1"
-    id 'com.github.ben-manes.versions'  version '0.47.0' // see dependencyUpdates
+    id 'com.github.ben-manes.versions'  version '0.50.0' // see dependencyUpdates
     id "org.owasp.dependencycheck" version "8.2.1"
 }
 
