@@ -5,7 +5,7 @@ plugins {
     id 'pmd'
     id 'checkstyle'
     id "net.davidecavestro.gradle.jxr" version "0.2.1"
-    id 'com.github.ben-manes.versions'  version '0.51.0' // see dependencyUpdates
+    id 'com.github.ben-manes.versions'  version '0.52.0' // see dependencyUpdates
 }
 
 group 'ch.uhlme'
