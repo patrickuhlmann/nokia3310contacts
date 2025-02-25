@@ -29,13 +29,13 @@ jobs:
         run: ./gradlew build --no-daemon
         
       - name: Archive jars
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: jars
           path: build/libs
           
       - name: Archive reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: build/reports
