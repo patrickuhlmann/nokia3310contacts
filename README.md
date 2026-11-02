@@ -23,7 +23,7 @@ On the command line run:
 
 ## Troubleshooting
 
-I used Java 17 (LTS) to run it.
+The project is built with Java 25 (LTS).
 
 If you get an error similar than:
 
@@ -32,6 +32,6 @@ General error during semantic analysis: Unsupported class file major version 57
 java.lang.IllegalArgumentException: Unsupported class file major version 57
 ```
 
-It is most likely that you don't run Java 17
+It is most likely that you don't run Java 25 (Gradle 9.7 does not yet run on newer JDKs)
 
 

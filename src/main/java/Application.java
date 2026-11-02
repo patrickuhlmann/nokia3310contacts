@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
-/** Converts an vcf from nextcloud (v4) to vcf for Nokia 3310 (v2.1) */
+/** Converts a vcf from nextcloud (v4) to vcf for Nokia 3310 (v2.1). */
 public class Application {
   private static final String ANSI_RESET = "\u001B[0m";
   private static final String ANSI_RED = "\u001B[31m";
