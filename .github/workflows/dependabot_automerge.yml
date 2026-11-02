@@ -1,0 +1,22 @@
+name: Dependabot Auto-Merge
+
+# Enables GitHub auto-merge on Dependabot PRs. The PR is merged as soon as
+# the required status check "Build and Test" (branch protection on master) is green.
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    name: "Enable Auto-Merge"
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+
+    steps:
+      - name: Enable auto-merge
+        run: gh pr merge --auto --rebase "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
